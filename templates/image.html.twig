@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+{% block body %}
+    {{ form_start(form, {attr: {'novalidate': 'novalidate'}}) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <!--------------------------->
+    {% if images is defined %}
+        {% for image in images %}
+            <form action="success" method="get">
+                <table>
+                    <thead>
+                    <tr>
+                    <th style="border: 1px solid #999999;">Image Name</th>
+                    <th style="border: 1px solid #999999;">Image</th>
+                    <th style="border: 1px solid #999999;">Image Extension</th>
+                    <th style="border: 1px solid #999999;">Delete Image</th>
+                    <th style="border: 1px solid #999999;">Edit Image</th>
+                    </tr>
+                    </head>
+                    <tbody>
+                    <tr>
+                        <td style="width: 300px"><div class="divTableCell"><b>{{ image.name }}</b></div></td>
+                        <td style="width: 300px">
+                            <div class="divTableCell">
+                                <a download="{{ image.name }}" href="{{ asset('uploads/'~image.name) }}" title="{{ image.name }}">
+                                    <img src="{{ asset('uploads/'~image.name) }}" height="300px"/>
+                                </a>
+                            </div>
+                        </td>
+                        <td style="width: 300px"><div class="divTableCell"><b>{{ image.imageExtension }} </b></div></td>
+                        <td style="width: 300px"><div class="divTableCell"><input type="submit" name="{{ image.name }}" value="Delete" onclick="document.getElementById('deleteImageName').submit()"></div></td>
+                         <input id="deleteImageName" type="hidden" name="deleteImage" value="{{ image.id }}"/>
+                        <td><div width="10"> <input type="button" value="Edit" onclick="displayFieldForEdit()"></div></td>
+                        <td><div id="editField" width="10"> <input type="text" value="{{ image.name }}"></div></td>
+                        <td><div id="okButton"  width="10"> <input type="button" value="ok"></div></td>
+                         <!--<input id="EditImageName" type="hidden" name="editImage" value="{{ image.id }}"/>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+{% block javascripts %}{% endblock %}
+</body>
+</html>
